@@ -3,26 +3,22 @@
 #####################################################################################
 ## Global Variables
 SCRIPT_NAME=`basename $0`
-USAGE="$SCRIPT_NAME <pid> [-t duration in seconds (default 60s)] [-h help]\n
-Example $SCRIPT_NAME 123 -t 360\n 
+USAGE="$SCRIPT_NAME <pid> [duration in seconds (default 60s)]\n
+Example $SCRIPT_NAME 123 360\n 
 Author: José Ricardo A. Figueirôa (jraf@cin.ufpe.br)"
-duration=60
-PID=$1
 
 #####################################################################################
-## Get Opts and parse arguments
-while getopts ":ht:" opt; do
-    case $opt in
-        t) duration=${OPTARG} ;;
-        h) echo -e $USAGE; exit 0;;
-        :) echo "Missing options argument for -$OPTARG" >&2; exit 1;;
-    esac
-done
-shift $((OPTIND-1))
+## Get arguments
+PID=$1
+duration=$2
 
 if [[ -z $PID ]]; then
     echo -e $USAGE
     exit 1;
+fi
+
+if [[ -z $duration ]]; then
+    duration=60
 fi
 
 #####################################################################################
