@@ -1,24 +1,25 @@
 #!/bin/bash
 
-
-USAGE="q1: [-b browser (default chrome)] [-t duration in seconds (default 100s)] [-h help]
-Example q1 -b firefox -t 360 
+SCRIPT_NAME=`basename $0`
+USAGE="$SCRIPT_NAME <pid> [-t duration in seconds (default 60s)] [-h help]\n
+Example $SCRIPT_NAME 123 -t 360\n 
 Author: José Ricardo A. Figueirôa (jraf@cin.ufpe.br)"
 
-browser="chrome"
-duration=100
-while getopts ":hb:t:" opt; do
+duration=60
+PID=$1
+
+while getopts ":ht:" opt; do
     case $opt in
         t) duration=${OPTARG} ;;
-        b) browser=${OPTARG} ;;
-        h) echo $USAGE; exit 0;;
-        :) ;;
+        h) echo -e $USAGE; exit 0;;
+        :) echo "Missing options argument for -$OPTARG" >&2; exit 1;;
     esac
 done
 shift $((OPTIND-1))
 
-PIDs=pgrep $browser 
+if [[ -z $PID ]]; then
+    echo -e $USAGE
+    exit 1;
+fi
 
-for PID in $PIDs; do
-    echo $PID
-done
+cat /proc/$PID/stat >&2
