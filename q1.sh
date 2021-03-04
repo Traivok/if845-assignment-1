@@ -36,14 +36,14 @@ while [ $elapsed -lt $duration ]; do
 
     writes=`pidstat -d -p $PID | tail +4 | awk '{print $5}'`
 
-    ram_usage=`pidstat -r -p $PID | tail +4 | awk '{print $5}'`
+    ram_usage=`pidstat -r -p $PID | tail +4 | awk '{print $8}'`
 
     mtotal=`cat /proc/meminfo | awk '/MemTotal/{print $2}'`
     mfree=` cat /proc/meminfo | awk '/MemFree/{print $2}'`
     buff=`  cat /proc/meminfo | awk '/Buffers/{print $2}'`
     cach=`  cat /proc/meminfo | awk '/^Cached/{print $2}'`
 
-    echo "`date`, $process, $cpu_usage, $cpu, $writes, $ram_usage, $mtotal, $mfree, $buff, $cach"
+    echo "`date`, $process, $cpu, $cpu_usage, $writes, $ram_usage, $mtotal, $mfree, $buff, $cach"
 
     sleep $period
     elapsed=$((elapsed + period)) 
