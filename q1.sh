@@ -26,7 +26,7 @@ fi
 elapsed=0
 period=5
 
-echo 'DATE, PROCESS, CPU, CPU%, DISC Writes (kB_wr/s), MEM%, TOTAL MEM, FREE MEM, BUFFERS, CACHED'
+echo 'DATE, PROCESS, CPU, CPU%, DISC Writes (kB_wr/s), MEM%, TOTAL MEM, FREE MEM, MEM, BUFFERS, CACHED'
 
 while [ $elapsed -lt $duration ]; do
 
@@ -43,7 +43,7 @@ while [ $elapsed -lt $duration ]; do
     buff=`  cat /proc/meminfo | awk '/Buffers/{print $2}'`
     cach=`  cat /proc/meminfo | awk '/^Cached/{print $2}'`
 
-    echo "`date`, $process, $cpu, $cpu_usage, $writes, $ram_usage, $mtotal, $mfree, $buff, $cach"
+    echo "`date`, $process, $cpu, $cpu_usage, $writes, $ram_usage, $mtotal, $mfree, $((mtotal - mfree)), $buff, $cach"
 
     sleep $period
     elapsed=$((elapsed + period)) 
